@@ -19,7 +19,7 @@ const ChatPage = () => {
     if (msg === '')
       alert('Please write something to send');
     else {
-      const data = { userId: state.user, messageID: state.messages.length + 1, msg: msg }
+      const data = { userId: state.user, messageID: state.messages.length + 1, msg: msg, time: new Date().toLocaleString() }
       dispatch(Sending_Msg(data))
       setMsg('')
     }
@@ -34,17 +34,17 @@ const ChatPage = () => {
           Your Chat group Name
         </Text>
       </div>
-      <div className="refresh" onClick={() =>{ setMsg('');dispatch(Refreshing()); window.history.go(0)}}>
+      <div className="refresh" onClick={() => { setMsg(''); dispatch(Refreshing()); window.history.go(0) }}>
         Refresh <i className="fa-solid fa-arrows-rotate" ></i>
       </div>
       <div className="chatArea">
-        {state.messages.map((val) => {
+        {state.messages.sort((a, b) => b.messageID-a.messageID).map((val) => {
           if (val.userId === state.user) {
             return (
               <div className="mine" key={val.messageID}>
-                <Card sectioned >
+                <Card sectioned subdued >
                   <Text variant='headingSm' as='h5' color='success' alignment='left' >
-                    You
+                    You at <span style={{ color: "blue" }}>{val.time}</span>
                   </Text>
                   <Text variant='headingSm' as='h1'>
                     {val.msg}
@@ -56,13 +56,12 @@ const ChatPage = () => {
             return (
               <div className="others" key={val.messageID}>
                 <Card sectioned className='others'>
-                  <Text variant='headingSm' as='h5' color='success' alignment='left' >
-                    {val.userId}
+                  <Text variant='headingSm' as='h5' color='warning' alignment='left' >
+                    <span style={{ color: "red" }}>{val.userId}</span>  at <span style={{ color: "blue" }}>{val.time}</span>
                   </Text>
                   <p>{val.msg}</p>
                 </Card>
               </div>
-
             )
           }
         })}
@@ -71,7 +70,7 @@ const ChatPage = () => {
 
 
       <div className="message">
-        <TextField suffix={<i className="fa-solid fa-paper-plane" style={{ cursor: "pointer" }} onClick={() => handleMsgSent()}></i>} type='text' value={msg} onChange={(e) => setMsg(e)} />
+        <TextField suffix={<i className="fa-solid fa-paper-plane" style={{ cursor: "pointer" }} onClick={() => handleMsgSent()}></i>} type='text' placeholder='Enter your message' autoFocus value={msg} onChange={(e) => setMsg(e)} />
       </div>
     </div>
   )
