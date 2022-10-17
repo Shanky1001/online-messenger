@@ -16,7 +16,7 @@ const HomePage = () => {
 
     // State for modal
     const [open, setOpen] = useState(false)
-    console.log(state);
+
 
     // Use Effect for Modal open / Close
     useEffect(() => {
