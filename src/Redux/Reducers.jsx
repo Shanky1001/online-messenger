@@ -1,4 +1,4 @@
-import { ADD_USER, REFRESH, SEND, USER } from "./Actions"
+import { ADD_USER, REFRESH, SEND, USER } from "./Actions";
 
 
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_USER:
-            sessionStorage.setItem('user', action.user)
+            sessionStorage.setItem('user', action.user);
             localStorage.setItem('users', JSON.stringify([...state.users, action.payload]))
             return { ...state, users: [...state.users, action.payload], user: action.user }
 
